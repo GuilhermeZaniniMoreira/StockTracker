@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <LinearLayout android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18dp"
+        android:text="ACAO"
+        android:paddingTop="18sp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="18sp"
+        android:textAlignment="center"
+        android:id="@+id/textViewStock"/>
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18dp"
+        android:text="QUANTIDADE"
+        android:textAlignment="center"
+        android:paddingTop="18sp"
+        android:paddingRight="8dp"
+        android:paddingBottom="18sp"
+        android:paddingLeft="8dp"
+        android:id="@+id/textViewQtd"/>
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "426387941816",
+    "firebase_url": "https://stocktracker-f60cd.firebaseio.com",
+    "project_id": "stocktracker-f60cd",
+    "storage_bucket": "stocktracker-f60cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426387941816:android:129f0a60e55ad505",
+        "android_client_info": {
+          "package_name": "guilherme.url.ph.stocktracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426387941816-1fqti29h157lppvgllo4igjak6reuqis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "guilherme.url.ph.stocktracker",
+            "certificate_hash": "b46545ecb9cbc53e3691206295207c4b22ba282a"
+          }
+        },
+        {
+          "client_id": "426387941816-1fr508515tk3esb6ttcjj6dtckrkjkk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgjetKoI3awrnqs0GJqycju6OezrX90wI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426387941816-1fr508515tk3esb6ttcjj6dtckrkjkk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
