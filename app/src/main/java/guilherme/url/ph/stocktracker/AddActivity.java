@@ -126,6 +126,13 @@ public class AddActivity extends AppCompatActivity {
                                 String ticker = symbol.getText().toString().toUpperCase();
                                 Integer qtd = Integer.valueOf(quantidade.getText().toString());
 
+                                if (qtd <= 0) {
+                                    Intent i = new Intent(AddActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    Toast.makeText(getApplicationContext(), "Quantidade não pode ser igual ou inferior a 0!", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
                                 s = new StockClass();
                                 s.setTicker(ticker.toUpperCase());
                                 s.setQtd(qtd);

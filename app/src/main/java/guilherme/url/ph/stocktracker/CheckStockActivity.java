@@ -174,6 +174,14 @@ public class CheckStockActivity extends AppCompatActivity {
                 s.setTicker(ticker.toUpperCase());
 
                 Integer qtd = Integer.valueOf(updateQtd.getText().toString());
+
+                if (qtd <= 0) {
+                    Intent i = new Intent(CheckStockActivity.this, MainActivity.class);
+                    startActivity(i);
+                    Toast.makeText(getApplicationContext(), "Quantidade não pode ser igual ou inferior a 0!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 s.setQtd(qtd);
 
                 myRef.child("users").child(userID).child(ticker).setValue(s);
