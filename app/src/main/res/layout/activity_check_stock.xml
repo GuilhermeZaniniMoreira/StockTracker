@@ -59,20 +59,21 @@
         android:id="@+id/update"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="25dp"
+        android:background = "@drawable/roundedbutton"
+        android:textColor="@android:color/white"
         android:layout_marginRight="25dp"
-        android:background="@color/colorPrimary"
         android:hint="Alterar a quantidade" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:layout_marginTop="20dp"
-        android:textColor="@color/textButton"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:background = "@drawable/roundedbutton"
+        android:textColor="@android:color/background_light"
         android:id="@+id/delete"
         android:hint="Excluir" />
 
@@ -97,9 +98,10 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:background = "@drawable/roundedbutton"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            android:background="@color/colorPrimary"
             android:layout_marginTop="10dp"
             android:hint="Alterar a quantidade"
             android:id="@+id/updateQtdBtn"
