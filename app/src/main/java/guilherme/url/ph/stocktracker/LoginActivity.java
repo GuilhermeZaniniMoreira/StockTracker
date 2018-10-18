@@ -108,7 +108,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLoginOrRegister(true);
+                //attemptLoginOrRegister(true);
+
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(i);
             }
         });
 
@@ -167,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
 
     private void attemptLoginOrRegister(boolean isNewUser) {
+
         if (mAuthTask != null) {
             return;
         }
@@ -205,35 +209,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            if(isNewUser) {
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        showProgress(false);
-                        Toast.makeText(getApplicationContext(), "Usuário cadastrado com sucesso. Agora você pode se autenticar com suas credenciais!", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            else {
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        showProgress(false);
 
-                        if (!task.isSuccessful()) {
-                            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                            Toast.makeText(LoginActivity.this, "Antenticação do usuário falhou! ", Toast.LENGTH_SHORT).show();
-                        } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    showProgress(false);
+
+                    if (!task.isSuccessful()) {
+                        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        Toast.makeText(LoginActivity.this, "Antenticação do usuário falhou! " + task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
-                });
-            }
+                }
+            });
         }
     }
 

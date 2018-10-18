@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,10 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private ArrayAdapter<StockClass> adapter;
+
     private ArrayList<StockClass> stocks;
+    private ArrayList<StockClass> qtdStocks;
+
     private DatabaseReference firebase;
     private ValueEventListener listener;
-    private StockClass stockEsclhida;
+    private StockClass stockEscolhida;
 
     TextView info, add;
 
@@ -48,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+
         stocks = new ArrayList<>();
+        qtdStocks = new ArrayList<>();
+
         listView = (ListView) findViewById(R.id.listview);
         adapter = new StockAdapter(this, stocks);
         listView.setAdapter(adapter);
@@ -94,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    stockEsclhida = adapter.getItem(i);
+                    stockEscolhida = adapter.getItem(i);
 
                     Intent intentCheck = new Intent(MainActivity.this, CheckStockActivity.class);
-                    intentCheck.putExtra("ticker", stockEsclhida.getTicker());
-                    intentCheck.putExtra("qtd", stockEsclhida.getQtd());
+                    intentCheck.putExtra("ticker", stockEscolhida.getTicker());
+                    intentCheck.putExtra("qtd", stockEscolhida.getQtd());
                     startActivity(intentCheck);
 
                 }
