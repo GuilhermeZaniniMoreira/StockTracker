@@ -101,6 +101,17 @@
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/cadastrado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:clickable="true"
+                    android:text="@string/login"
+                    android:textAlignment="center"
+                    android:onClick="login"
+                    android:textSize="18dp" />
+
 
             </LinearLayout>
         </ScrollView>

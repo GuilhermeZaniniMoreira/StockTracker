@@ -6,12 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +38,8 @@ public class SignUpActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordConfirm = (EditText) findViewById(R.id.password_confirm);
 
+
+
         Button mSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
 
         mAuth = FirebaseAuth.getInstance();
@@ -45,6 +50,11 @@ public class SignUpActivity extends AppCompatActivity {
                 attemptRegister(true);
             }
         });
+    }
+
+    public void login(View v) {
+        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
     private void attemptRegister(boolean isNewUser) {
