@@ -59,10 +59,10 @@
         android:id="@+id/update"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="25dp"
-        android:background = "@drawable/roundedbutton"
+        android:background="@drawable/roundedbutton"
         android:textColor="@android:color/white"
         android:layout_marginRight="25dp"
-        android:hint="Alterar a quantidade" />
+        android:text="Alterar a quantidade" />
 
     <Button
         android:layout_width="match_parent"
@@ -72,11 +72,10 @@
         android:layout_marginRight="25dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:background = "@drawable/roundedbutton"
-        android:textColor="@android:color/background_light"
+        android:background="@drawable/roundedbutton"
+        android:textColor="@android:color/white"
         android:id="@+id/delete"
-        android:hint="Excluir" />
-
+        android:text="Excluir" />
 
     <LinearLayout
         android:layout_marginTop="10dp"
@@ -98,7 +97,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:background = "@drawable/roundedbutton"
+            android:background="@drawable/roundedbutton"
             android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:visibility="invisible"

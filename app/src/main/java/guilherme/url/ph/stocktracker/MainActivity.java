@@ -3,20 +3,29 @@ package guilherme.url.ph.stocktracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,11 +35,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import guilherme.url.ph.stocktracker.Adapter.StockAdapter;
 import guilherme.url.ph.stocktracker.Entidades.StockClass;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private FirebaseAuth mAuth;
     private String userID;
@@ -45,14 +55,15 @@ public class MainActivity extends AppCompatActivity {
     private ValueEventListener listener;
     private StockClass stockEscolhida;
 
+    ArrayList<Integer> qtd = new ArrayList<>();
+    ArrayList<String> ticker = new ArrayList<>();
+
     TextView info, add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
 
         stocks = new ArrayList<>();
         qtdStocks = new ArrayList<>();
@@ -88,8 +99,15 @@ public class MainActivity extends AppCompatActivity {
                         add.setText("Adicione as suas ações através do botão.");
                     }
 
+                    qtd.clear();
+                    ticker.clear();
 
-                    adapter.notifyDataSetChanged();
+                    for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                        ticker.add(dados.getKey());
+                        qtd.add(Integer.parseInt(dados.child("qtd").getValue().toString()));
+                    }
+
+                    setupPieChart();
                 }
 
                 @Override
@@ -101,14 +119,11 @@ public class MainActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                     stockEscolhida = adapter.getItem(i);
-
                     Intent intentCheck = new Intent(MainActivity.this, CheckStockActivity.class);
                     intentCheck.putExtra("ticker", stockEscolhida.getTicker());
                     intentCheck.putExtra("qtd", stockEscolhida.getQtd());
                     startActivity(intentCheck);
-
                 }
             });
 
@@ -172,5 +187,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebase.addValueEventListener(listener);
+    }
+
+    private void setupPieChart() {
+        List<PieEntry> PieEntries = new ArrayList<>();
+
+        String[] arrTicker = ticker.toArray(new String[ticker.size()]);
+        Integer[] arrQtd = qtd.toArray(new Integer[qtd.size()]);
+
+        for (int i = 0; i < arrQtd.length; i++) {
+            PieEntries.add(new PieEntry(arrQtd[i], arrTicker[i]));
+        }
+
+        PieDataSet dataSet = new PieDataSet(PieEntries, "");
+        dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(20f);
+        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+        pieChart.setCenterTextSize(15f);
+        pieChart.getLegend().setEnabled(false);
+        Description des = pieChart.getDescription();
+        des.setEnabled(false);
+        pieChart.setData(data);
+        pieChart.invalidate();
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        Log.i("entry", e.toString() + Highlight.class.toString());
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }

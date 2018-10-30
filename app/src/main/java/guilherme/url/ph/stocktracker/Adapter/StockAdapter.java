@@ -19,11 +19,9 @@ public class StockAdapter extends ArrayAdapter<StockClass> {
 
     public StockAdapter(Context c, ArrayList<StockClass> objects) {
         super(c, 0, objects);
-
         this.context = c;
         this.acao = objects;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -41,10 +39,8 @@ public class StockAdapter extends ArrayAdapter<StockClass> {
             StockClass s2 = acao.get(position);
             textViewNome.setText(s2.getTicker());
             textViewValor.setText(s2.getQtd().toString());
-
         }
 
         return view;
     }
-
 }
