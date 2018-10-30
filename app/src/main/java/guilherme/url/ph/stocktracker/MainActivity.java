@@ -1,6 +1,7 @@
 package guilherme.url.ph.stocktracker;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +42,7 @@ import java.util.List;
 import guilherme.url.ph.stocktracker.Adapter.StockAdapter;
 import guilherme.url.ph.stocktracker.Entidades.StockClass;
 
-public class MainActivity extends AppCompatActivity implements OnChartValueSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private String userID;
@@ -68,10 +70,12 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         stocks = new ArrayList<>();
         qtdStocks = new ArrayList<>();
 
+        final PieChart pieChart = (PieChart) findViewById(R.id.piechart);
         listView = (ListView) findViewById(R.id.listview);
         adapter = new StockAdapter(this, stocks);
         listView.setAdapter(adapter);
 
+        final LinearLayout linear = findViewById(R.id.LinearLayout_chart);
         info = (TextView) findViewById(R.id.info);
         add = (TextView) findViewById(R.id.add);
 
@@ -95,19 +99,28 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
                     }
 
                     if (stocks.size() == 0) {
-                        info.setText("Não há nenhuma ação adicionada!");
                         add.setText("Adicione as suas ações através do botão.");
+                        pieChart.setVisibility(View.GONE);
+                        listView.setVisibility(View.GONE);
+                        linear.setVisibility(View.GONE);
+
+                    } else {
+                        add.setVisibility(View.GONE);
                     }
 
                     qtd.clear();
                     ticker.clear();
+
+                    adapter.notifyDataSetChanged();
 
                     for (DataSnapshot dados : dataSnapshot.getChildren()) {
                         ticker.add(dados.getKey());
                         qtd.add(Integer.parseInt(dados.child("qtd").getValue().toString()));
                     }
 
-                    setupPieChart();
+                    if (stocks.size() > 0) {
+                        setupPieChart();
+                    }
                 }
 
                 @Override
@@ -127,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
                 }
             });
 
-
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -144,10 +156,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent i = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(i);
-
             }
         });
     }
@@ -200,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         }
 
         PieDataSet dataSet = new PieDataSet(PieEntries, "");
+        dataSet.setSliceSpace(1f);
         dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
@@ -210,15 +221,5 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         des.setEnabled(false);
         pieChart.setData(data);
         pieChart.invalidate();
-    }
-
-    @Override
-    public void onValueSelected(Entry e, Highlight h) {
-        Log.i("entry", e.toString() + Highlight.class.toString());
-    }
-
-    @Override
-    public void onNothingSelected() {
-
     }
 }

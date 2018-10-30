@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "guilherme.url.ph.stocktracker"
@@ -34,7 +40,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:4.2.0'
     implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
