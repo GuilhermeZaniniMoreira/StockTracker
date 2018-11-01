@@ -33,17 +33,12 @@ public class AddActivity extends AppCompatActivity {
     Button search, add;
     EditText symbol, quantidade;
     TextView valor, variacao, nameStock;
-    private String userID;
 
+    private String userID;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-
     private String concatWithSA;
-
-    private ValueEventListener listener;
-
     private StockClass s;
 
     @Override
@@ -71,22 +66,16 @@ public class AddActivity extends AppCompatActivity {
                 userID = user.getUid();
 
                 symbol = (EditText) findViewById(R.id.symbol);
-
                 valor = (TextView) findViewById(R.id.price);
-
                 variacao = (TextView) findViewById(R.id.change);
-
                 add = (Button) findViewById(R.id.add);
-
                 quantidade = (EditText) findViewById(R.id.qtd);
-
                 nameStock = findViewById(R.id.nome_stock);
 
                 Stock stock = null;
                 String variacaoPorcentagem = null;
 
                 try {
-
                     try { // busca por ativos americanos
 
                         stock = YahooFinance.get(symbol.getText().toString());
@@ -116,7 +105,6 @@ public class AddActivity extends AppCompatActivity {
                         BigDecimal change = stock.getQuote().getChangeInPercent();
                         BigDecimal price = stock.getQuote(true).getPrice();
                         String name = stock.getName().toString();
-
 
                         add.setOnClickListener(new View.OnClickListener() {
 
@@ -179,9 +167,7 @@ public class AddActivity extends AppCompatActivity {
                     valor.setText("");
                     variacao.setText("");
                 }
-
             }
         });
-
     }
 }

@@ -152,12 +152,10 @@ public class CheckStockActivity extends AppCompatActivity {
         update.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 update.setVisibility(View.GONE);
                 updateQtd.setVisibility(View.VISIBLE);
                 updateQtdButton.setVisibility(View.VISIBLE);
                 delete.setVisibility(View.GONE);
-
             }
         });
 

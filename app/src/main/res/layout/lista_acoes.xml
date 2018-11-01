@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:textSize="18dp"
         android:text="ACAO"
-        android:paddingTop="18sp"
+        android:paddingTop="10sp"
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
-        android:paddingBottom="18sp"
+        android:paddingBottom="10sp"
         android:textAlignment="center"
         android:id="@+id/textViewStock"/>
 
@@ -21,10 +21,33 @@
         android:textSize="18dp"
         android:text="QUANTIDADE"
         android:textAlignment="center"
-        android:paddingTop="18sp"
+        android:paddingTop="10sp"
         android:paddingRight="8dp"
-        android:paddingBottom="18sp"
+        android:paddingBottom="10sp"
         android:paddingLeft="8dp"
         android:id="@+id/textViewQtd"/>
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18dp"
+        android:text="VALOR"
+        android:textAlignment="center"
+        android:paddingTop="10sp"
+        android:paddingRight="8dp"
+        android:paddingBottom="10sp"
+        android:paddingLeft="8dp"
+        android:id="@+id/textViewValor"/>
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="18dp"
+        android:text="VALOR"
+        android:textAlignment="center"
+        android:paddingTop="10sp"
+        android:paddingRight="8dp"
+        android:paddingBottom="10sp"
+        android:paddingLeft="8dp"
+        android:id="@+id/textViewChange"/>
+
 
 </LinearLayout>
