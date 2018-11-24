@@ -38,18 +38,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import guilherme.url.ph.stocktracker.Adapter.StockAdapter;
 import guilherme.url.ph.stocktracker.Entidades.StockClass;
+import guilherme.url.ph.stocktracker.Formatter.MyFormatter;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 import static android.R.layout.simple_list_item_1;
 
 public class MainActivity extends AppCompatActivity {
+
+    DecimalFormat df = new DecimalFormat("##.##");
 
     private FirebaseAuth mAuth;
     private String userID;
@@ -130,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (stocks.size() > 0) {
-                        sum();
                         setupPieChart();
                     }
                 }
@@ -211,71 +215,64 @@ public class MainActivity extends AppCompatActivity {
         firebase.addValueEventListener(listener);
     }
 
-    private void sum() {
+    private void setupPieChart() {
 
-        ArrayList<String> multi = new ArrayList<>();
+        ArrayList<Float> multi = new ArrayList<>();
+        List<PieEntry> PieEntries = new ArrayList<>();
 
         Integer[] arrQtd = qtd.toArray(new Integer[qtd.size()]);
         String[] arrTickerSA = ticker.toArray(new String[ticker.size()]);
+        String[] arrTicker = ticker.toArray(new String[ticker.size()]);
 
         for (int i = 0; i < arrTickerSA.length; i++) {
             arrTickerSA[i] = arrTickerSA[i] + ".SA";
         }
 
         Float valorFloat = null;
+        Float qtdFloat = null;
         BigDecimal valor;
+        double total = 0;
 
         try {
             Map<String, Stock> stocks = YahooFinance.get(arrTickerSA); // single request
 
-            Log.d("tamanho do vetor", arrQtd.length + "");
-
             for (int i = 0; i < arrQtd.length; i++) {
                 Stock atual = stocks.get(arrTickerSA[i]);
                 valor = atual.getQuote().getPrice();
-
-                Log.d("valor", valor.toString());
-                Log.d("qtd", arrQtd[i] + "");
-                Log.d("multi", (arrQtd[i] * valor.floatValue()) + "");
-                multi.add("" + ticker.get(i) + ": " + valor.floatValue() * arrQtd[i]);
-                Log.d("arraylist", multi.get(i));
+                valorFloat = Float.valueOf(df.format(valor.floatValue()));
+                qtdFloat = (float) arrQtd[i];
+                multi.add(qtdFloat * valorFloat);
             }
 
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, multi);
+            Float[] arrValor = multi.toArray(new Float[multi.size()]);
 
-            ListView valorLV = (ListView) findViewById(R.id.valor);
-            valorLV.setAdapter(arrayAdapter);
+
+            for (int i = 0; i < arrQtd.length; i++) {
+                PieEntries.add(new PieEntry(arrValor[i], arrTicker[i]));
+                total += arrValor[i].doubleValue();
+            }
+
+            PieDataSet dataSet = new PieDataSet(PieEntries, "");
+            dataSet.setSliceSpace(1f);
+            dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
+            PieData data = new PieData(dataSet);
+            data.setValueTextSize(10f);
+            data.setValueFormatter(new MyFormatter());
+
+            PieChart pieChart = (PieChart) findViewById(R.id.piechart);
+            pieChart.setCenterTextSize(15f);
+            pieChart.getLegend().setEnabled(false);
+            Description des = pieChart.getDescription();
+            des.setEnabled(false);
+            pieChart.setData(data);
+            int colorBlack = Color.parseColor("#000000");
+            pieChart.setEntryLabelColor(colorBlack);
+            pieChart.setCenterText("R$ " + df.format(total));
+            pieChart.setCenterTextSize(20f);
+            pieChart.invalidate();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void setupPieChart() {
-
-        List<PieEntry> PieEntries = new ArrayList<>();
-        List<PieEntry> PieValueEntries = new ArrayList<>();
-
-        String[] arrTicker = ticker.toArray(new String[ticker.size()]);
-        Integer[] arrQtd = qtd.toArray(new Integer[qtd.size()]);
-
-        // valores para o gráfico de quantidade
-        for (int i = 0; i < arrQtd.length; i++) {
-            PieEntries.add(new PieEntry(arrQtd[i], arrTicker[i]));
-        }
-
-        PieDataSet dataSet = new PieDataSet(PieEntries, "");
-        dataSet.setSliceSpace(1f);
-        dataSet.setColors(ColorTemplate.LIBERTY_COLORS);
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(20f);
-
-        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
-        pieChart.setCenterTextSize(15f);
-        pieChart.getLegend().setEnabled(false);
-        Description des = pieChart.getDescription();
-        des.setEnabled(false);
-        pieChart.setData(data);
-        pieChart.invalidate();
     }
 }

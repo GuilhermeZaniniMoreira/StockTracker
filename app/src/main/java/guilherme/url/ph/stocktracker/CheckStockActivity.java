@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import guilherme.url.ph.stocktracker.Entidades.StockClass;
 import yahoofinance.Stock;
@@ -38,6 +39,8 @@ public class CheckStockActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     private StockClass s;
+
+    DecimalFormat df = new DecimalFormat("#.00");
 
     TextView qtdTextView, tickerTextView, valor, valorTotal, change, nome;
     Button update, delete, updateQtdButton;
@@ -80,7 +83,6 @@ public class CheckStockActivity extends AppCompatActivity {
         Stock stock = null;
 
         try {
-
             stock = YahooFinance.get(concat);
             priceBD = stock.getQuote(true).getPrice();
             changeBD = stock.getQuote().getChangeInPercent();
@@ -90,7 +92,7 @@ public class CheckStockActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        valor.setText(String.valueOf("Valor atual: R$ " + priceBD));
+        valor.setText(String.valueOf("Valor atual: R$ " + df.format(priceBD)));
 
         qtdStock = Integer.valueOf(qtd);
         nome.setText(nomeString);
@@ -99,7 +101,7 @@ public class CheckStockActivity extends AppCompatActivity {
         BigDecimal temp = new BigDecimal(i);
         BigDecimal result = priceBD.multiply(temp);
 
-        valorTotal.setText(String.valueOf("Valor total: R$ " + result));
+        valorTotal.setText(String.valueOf("Valor total: R$ " + df.format(result)));
 
         double changeDouble = changeBD.doubleValue();
 

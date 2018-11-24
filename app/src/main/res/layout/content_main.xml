@@ -35,13 +35,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <ListView
-            android:layout_marginTop="45dp"
-            android:id="@+id/valor"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.50"
-            android:background="@android:color/white" />
-
     </LinearLayout>
 </LinearLayout>
